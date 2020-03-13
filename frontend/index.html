@@ -2,7 +2,11 @@
 <html lang="en">
 
 <head>
+<<<<<<< HEAD
     <title>Title</title>
+=======
+    <title>Hello Vue.js</title>
+>>>>>>> 088b8ea4a889106f6508b023eac1f5fa0df10a63
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -43,16 +47,25 @@
         </div>
     </nav>
     <div id="app">
+<<<<<<< HEAD
         <h1>{{message}}</h1>
         <h2 v-show="show">{{title}}</h2>
         <input type="text" v-model="message">
         <ul>
             <li v-for="project in projects">{{project}}</li>
+=======
+        <h1>{{ message }}</h1>
+        <h2 v-show="show">{{ title }}</h2>
+        <input type="text" v-model="message">
+        <ul>
+            <li v-for="project in projects">{{ project }}</li>
+>>>>>>> 088b8ea4a889106f6508b023eac1f5fa0df10a63
         </ul>
         <a :href="url">Google</a>
         <button @click="toggleTitle">Show/Hide</button>
         <hr>
         Task <input type="text" v-model="newtask" @keyup.enter="addTask">
+<<<<<<< HEAD
         <button @click="addTask">Add</button><button @click="clearTask">Clear</button>
         <ul>
             <li v-for="task in todos">{{ task }}</li>
@@ -71,6 +84,24 @@
     </template>
 
 
+=======
+        <button @click="addTask">Add</button>
+        <button @click="clearTask">Clear</button>
+        <ul>
+            <li v-for="task in todos">{{ task }}</li>
+        </ul>
+        <button-counter></button-counter>
+        <button-counter></button-counter>
+        <button-counter></button-counter>
+        <button-counter></button-counter>
+        <button-counter></button-counter>
+    </div>
+    <template id="counter-template">
+        <div>
+            <h3>{{ count }}</h3><button @click="increment">Add</button>
+        </div>
+    </template>
+>>>>>>> 088b8ea4a889106f6508b023eac1f5fa0df10a63
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

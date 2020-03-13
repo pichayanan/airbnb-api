@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 const mongoose = require('mongoose');
 const Place = require('./models/place');
+const cors = require('cors');
+app.use(cors());
 
 const uri = "mongodb://Admin:admin@cluster0-shard-00-00-bze3k.gcp.mongodb.net:27017,cluster0-shard-00-01-bze3k.gcp.mongodb.net:27017,cluster0-shard-00-02-bze3k.gcp.mongodb.net:27017/sample_airbnb?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority";
 
@@ -30,7 +32,30 @@ app.get('/api/airbnb/listings/:id', async (req, res) => {
     // Get data from MongoDB
     console.log(req.params.id);
     const query = {_id: req.params.id};
-    const places = await Place.find(query);
+    const places = await Place.find(query).limit(20);
+    console.log(places);
+    res.json(places);
+
+})
+
+// Get listing by city name
+app.get('/api/airbnb/listings/city/:cityname', async (req, res) => {
+
+    // Get data from MongoDB
+    console.log(req.params.cityname);
+    const query = {"address.market": req.params.cityname};
+    const places = await Place.find(query).limit(20);
+    console.log(places);
+    res.json(places);
+
+})
+
+app.get('/api/airbnb/listings/rating/:min', async (req, res) => {
+
+    // Get data from MongoDB
+    console.log(req.params.min);
+    const query = {"review_scores.review_scores_rating": {$gt : parseInt(req.params.min)}};
+    const places = await Place.find(query).select({ "reviews": 0, "host":0}).limit(20);
     console.log(places);
     res.json(places);
 
