@@ -4,7 +4,7 @@ const port = 3000;
 const mongoose = require('mongoose');
 const Place = require('./models/place');
 
-const uri = "mongodb://admin:admin@cluster0-shard-00-00-faqqw.gcp.mongodb.net:27017,cluster0-shard-00-01-faqqw.gcp.mongodb.net:27017,cluster0-shard-00-02-faqqw.gcp.mongodb.net:27017/sample_airbnb?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority";
+const uri = "mongodb://Admin:admin@cluster0-shard-00-00-bze3k.gcp.mongodb.net:27017,cluster0-shard-00-01-bze3k.gcp.mongodb.net:27017,cluster0-shard-00-02-bze3k.gcp.mongodb.net:27017/sample_airbnb?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority";
 
 mongoose.connect(uri, { useUnifiedTopology: true, useNewUrlParser: true }).
     then(() => console.log('Connected')).
@@ -18,7 +18,7 @@ app.get('/api/airbnb/listings', async (req, res) => {
 
     // Get data from MongoDB
     const query = {};
-    const places = await Place.find(query);
+    const places = await Place.find(query).limit(20);
     console.log(places);
     res.json(places);
 
@@ -36,7 +36,29 @@ app.get('/api/airbnb/listings/:id', async (req, res) => {
 
 })
 
+app.get('/api/airbnb/listings/city/:cityname', async (req, res) => {
 
-app.listen(port, () => console.log(`Example app listening on http://localhost:${port}`))
+    // Get data from MongoDB
+    console.log(req.params.cityname);
+    const query = {"address.market": req.params.cityname};
+    const places = await Place.find(query);
+    console.log(places);
+    res.json(places);
+
+})
+
+app.get('/api/airbnb/listings/rating/:min', async (req, res) => {
+
+    // Get data from MongoDB
+    console.log(req.params.min);
+    const query = {"review_scores.review_scores_rating":{$gt : parseInt( req.params.min)}};
+    const places = await Place.find(query).select({"review":0,"host":0});
+    console.log(places);
+    res.json(places);
+
+})
+
+
+app.listen(port, (req,res) => console.log(`Example app listening on http://localhost:${port}`))
 
 
